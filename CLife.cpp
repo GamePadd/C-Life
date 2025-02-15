@@ -3,8 +3,8 @@
 #include <time.h>
 #include <stdlib.h>
 
-const int sizeX = 450;
-const int sizeY = 150;
+const int sizeX = 650;
+const int sizeY = 250;
 
 void gotoxy(short x,short y) { 
 	HANDLE StdOut = GetStdHandle(STD_OUTPUT_HANDLE); 
@@ -103,7 +103,7 @@ class Life {
 				for (x = 0; x < sizeX; x++) {
 					area[x][y] = updArea[x][y];
 					if (updArea[x][y] == 1){
-						bufferArea[bufferCounter] = '*';
+						bufferArea[bufferCounter] = 219;
 					}
 					else {
 						bufferArea[bufferCounter] = ' ';
@@ -121,11 +121,21 @@ int main() {
 	structCursorInfo.bVisible = FALSE;
 	SetConsoleCursorInfo( handle, &structCursorInfo );
 	
+	CONSOLE_FONT_INFOEX cfi;
+    cfi.cbSize = sizeof cfi;
+    cfi.nFont = 0;
+    cfi.dwFontSize.X = 2;
+    cfi.dwFontSize.Y = 2;
+    cfi.FontFamily = FF_DONTCARE;
+    cfi.FontWeight = FW_NORMAL;
+    wcscpy(cfi.FaceName, L"Consolas");
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+	
 	Life game(2,3,3); //s s b - rules. Default "Life" params is 2 3 3
 	game.resetArea();
 	game.randomizeArea();
 
-	system("mode con cols=450 lines=150");
+	system("mode con cols=650 lines=250");
 	system("title Life");
 	
 	while (true) {
